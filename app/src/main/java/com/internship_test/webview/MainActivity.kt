@@ -1,16 +1,12 @@
 package com.internship_test.webview
 
-import android.graphics.Bitmap
+import android.content.Intent
 import android.os.Bundle
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var webView: WebView
     private lateinit var button: Button
     private lateinit var button2: Button
 
@@ -18,22 +14,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        webView = findViewById(R.id.web_view)
-        webView.webViewClient = WebViewClient()
-        webView.loadUrl("https://www.appsflyer.com/ru")
-        webView.settings.javaScriptEnabled = true
+        button = findViewById(R.id.apps_flyer)
+        button2 = findViewById(R.id.adjust)
+
+        button.setOnClickListener { openWebPage(APPS) }
+
+        button2.setOnClickListener { openWebPage(ADJUST) }
     }
 
-    class  WebClient: WebViewClient() {
-        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-            super.onPageStarted(view, url, favicon)
-        }
+    private fun openWebPage(url: String) {
+        WebActivity.URL = url
+        startActivity(Intent(this@MainActivity, WebActivity::class.java))
+    }
 
-        override fun shouldOverrideUrlLoading(
-            view: WebView?,
-            request: WebResourceRequest?
-        ): Boolean {
-            return super.shouldOverrideUrlLoading(view, request)
-        }
+    companion object {
+        const val APPS = "https://www.appsflyer.com/"
+        const val ADJUST = "https://www.adjust.com/"
+
     }
 }
